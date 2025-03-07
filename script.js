@@ -50,72 +50,70 @@ document.addEventListener('DOMContentLoaded', () => {
     if (DEBUG) console.log('Interval set:', intervalId);
 
     // Subscription form handling
-const subscribeForm = document.getElementById('subscribeForm');
-const messageDiv = document.getElementById('message');
+    const subscribeForm = document.getElementById('subscribeForm');
+    const messageDiv = document.getElementById('message');
 
-if (DEBUG) console.log('Form elements:', { subscribeForm, messageDiv });
+    if (DEBUG) console.log('Form elements:', { subscribeForm, messageDiv });
 
-function showMessage(text, type) {
-    if (DEBUG) console.log('Showing message:', { text, type });
-    if (!messageDiv) {
-        console.error('Message div not found');
-        return;
-    }
+    function showMessage(text, type) {
+        if (DEBUG) console.log('Showing message:', { text, type });
 
-    messageDiv.textContent = text;
-    messageDiv.className = `message ${type}`;
-    messageDiv.style.display = 'block';
-
-    setTimeout(() => {
-        messageDiv.style.display = 'none';
-    }, type === 'success' ? 7000 : 5000);
-}
-
-if (subscribeForm) {
-    subscribeForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (DEBUG) console.log('Form submitted');
-
-        const emailInput = document.getElementById('email');
-        const email = emailInput.value.trim();
-
-        if (!email) {
-            showMessage('Please enter a valid email.', 'error');
+        if (!messageDiv) {
+            console.error('Message div not found');
             return;
         }
 
-        if (DEBUG) console.log('Email:', email);
+        messageDiv.textContent = text;
+        messageDiv.className = `message ${type}`;
+        messageDiv.style.display = 'block';
 
-        // Replace with your actual Google Apps Script Web App URL
-        const scriptURL = "https://script.google.com/macros/s/AKfycby87vV_klrJT646n3CpT0wXwTkPdDz3QZ3Yy6WsuCbHVrTkbti2MGHE9ErOSW8OfHgY/exec"; 
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, type === 'success' ? 7000 : 5000);
+    }
 
-        try {
-            const response = await fetch(scriptURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({ email }) // Proper encoding for Apps Script
-            });
+    if (subscribeForm) {
+        subscribeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (DEBUG) console.log('Form submitted');
 
-            const data = await response.text();
-            if (DEBUG) console.log('Response data:', data);
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value.trim();
 
-            if (response.ok) {
-                showMessage('Thank you for subscribing!', 'success');
-                emailInput.value = ''; // Clear input field
-            } else {
-                showMessage('Subscription failed', 'error');
+            if (!email || !email.includes('@')) {
+                showMessage('Please enter a valid email.', 'error');
+                return;
             }
-        } catch (error) {
-            console.error('Subscription error:', error);
-            showMessage('Failed to connect to server', 'error');
-        }
-    });
-} else {
-    console.error('Subscribe form not found');
-}
 
+            if (DEBUG) console.log('Email:', email);
+
+            // Your actual Google Apps Script Web App URL
+            const scriptURL = "https://script.google.com/macros/s/AKfycby87vV_klrJT646n3CpT0wXwTkPdDz3QZ3Yy6WsuCbHVrTkbti2MGHE9ErOSW8OfHgY/exec"; 
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({ email }) // Proper encoding for Apps Script
+                });
+
+                const result = await response.text();
+                if (DEBUG) console.log('Response data:', result);
+
+                if (response.ok) {
+                    showMessage('Thank you for subscribing!', 'success');
+                    emailInput.value = ''; // Clear input field
+                } else {
+                    showMessage('Subscription failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Subscription error:', error);
+                showMessage('Failed to connect to server. Check your internet.', 'error');
+            }
+        });
+    } else {
         console.error('Subscribe form not found');
     }
 });
