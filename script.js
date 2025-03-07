@@ -87,7 +87,7 @@ if (subscribeForm) {
         if (DEBUG) console.log('Email:', email);
 
         // Replace with your actual Google Apps Script Web App URL
-        const scriptURL = "https://script.google.com/macros/s/AKfycbz_a-X9PW4it_dhZB6c_WS7pjnhMZvjNScq6BqDBdp5t9RotDfF6XIYr84Vc2YhGzSV/exec"; 
+        const scriptURL = "https://script.google.com/macros/s/AKfycby87vV_klrJT646n3CpT0wXwTkPdDz3QZ3Yy6WsuCbHVrTkbti2MGHE9ErOSW8OfHgY/exec"; 
 
         try {
             const response = await fetch(scriptURL, {
