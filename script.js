@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (DEBUG) console.log('Email:', email);
 
             // Your actual Google Apps Script Web App URL
-            const scriptURL = "https://script.google.com/macros/s/AKfycby87vV_klrJT646n3CpT0wXwTkPdDz3QZ3Yy6WsuCbHVrTkbti2MGHE9ErOSW8OfHgY/exec"; 
+            const scriptURL = "https://script.google.com/macros/s/AKfycbyzIE6t44Q-seFDigLfD16NJ7GdqrPCoF2GaJNu2X0/dev"; 
 
             try {
                 const response = await fetch(scriptURL, {
