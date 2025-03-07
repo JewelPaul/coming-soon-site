@@ -81,29 +81,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (DEBUG) console.log('Email:', email);
 
+            // Replace with your actual Google Apps Script Web App URL
+            const scriptURL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; 
+
             try {
-                const response = await fetch('/subscribe', {
+                const response = await fetch(scriptURL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email })
+                    body: JSON.stringify({ email }) // Sending email as JSON
                 });
 
-                if (DEBUG) console.log('Server response:', response);
+                if (DEBUG) console.log('Google Script response:', response);
 
-                const data = await response.json();
+                const data = await response.text();
                 if (DEBUG) console.log('Response data:', data);
 
                 if (response.ok) {
                     showMessage('Thank you for subscribing!', 'success');
-                    emailInput.value = '';
+                    emailInput.value = ''; // Clear input field
                 } else {
-                    showMessage(data.error || 'Subscription failed', 'error');
+                    showMessage('Subscription failed', 'error');
                 }
             } catch (error) {
                 console.error('Subscription error:', error);
-                showMessage('Server connection failed', 'error');
+                showMessage('Failed to connect to server', 'error');
             }
         });
     } else {
