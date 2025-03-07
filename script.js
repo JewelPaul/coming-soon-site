@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (DEBUG) console.log('Email:', email);
 
-            // Your actual Google Apps Script Web App URL
-            const scriptURL = "https://script.google.com/macros/s/AKfycbyzIE6t44Q-seFDigLfD16NJ7GdqrPCoF2GaJNu2X0/dev"; 
+            // Your new Google Apps Script Web App URL
+            const scriptURL = "https://script.google.com/macros/s/AKfycby3gOyvsIHhIxvqAIuVKFR4zjPrucccK9hc0vQ7HVei6CNWtH_tbmbkU4LKMRm27CfpCA/exec"; // Replace with your URL
 
             try {
                 const response = await fetch(scriptURL, {
@@ -71,4 +71,27 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Subscribe form not found');
     }
+
+    // TIMER CODE (UNCHANGED)
+    function updateCountdown() {
+        const launchDate = new Date('2024-12-31T00:00:00').getTime();
+        const now = new Date().getTime();
+        const timeRemaining = launchDate - now;
+
+        if (timeRemaining <= 0) {
+            document.getElementById('timer').innerHTML = "We're Live!";
+            return;
+        }
+
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        document.getElementById('timer').innerHTML = 
+            `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 });
