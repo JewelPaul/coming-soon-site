@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (DEBUG) console.log('Email:', email);
 
             // Replace with your actual Google Apps Script Web App URL
-            const scriptURL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; 
+            const scriptURL = "https://script.google.com/macros/s/AKfycbz_6AdS15CcDV8SRC2KWzwI40DtSyTtQRK68B5vphff/dev"; 
 
             try {
                 const response = await fetch(scriptURL, {
